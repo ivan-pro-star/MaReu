@@ -12,15 +12,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import com.example.mareu.R;
-import com.example.mareu.model.Reunion;
 import com.example.mareu.utils.Utils;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 public class PickerFragment extends Fragment {
 
@@ -37,15 +33,13 @@ public class PickerFragment extends Fragment {
     // CALENDAR ---
     private Calendar  mCalendar = Calendar.getInstance();
 
-    // SIMPLEDATE ---
-    SimpleDateFormat mFormat_date;
-    SimpleDateFormat mFormat_time;
-
     // OVERRIDE ---
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //mCalendar.setTimeZone(TimeZone.getTimeZone("Indian/Reunion"));
+        //INIT hour at 14h00
+        mCalendar.set(Calendar.HOUR_OF_DAY,14);
+        mCalendar.set(Calendar.MINUTE,0);
     }
 
     @Override
@@ -55,7 +49,7 @@ public class PickerFragment extends Fragment {
         ButterKnife.bind(this, view);
         configDateView();
         configTimeView();
-        setOnClickListener();
+        configSetOnClickListenerDateAndTime();
         return view;
     }
 
@@ -69,7 +63,7 @@ public class PickerFragment extends Fragment {
 
 
     /**DATEPICKER CLICK ON mButtonDate*/
-    private void setOnClickListener() {
+    private void configSetOnClickListenerDateAndTime() {
         mButtonDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +88,6 @@ public class PickerFragment extends Fragment {
                 TimePickerDialog timePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int pickHour, int pickMinute) {
-
                         mCalendar.set(Calendar.HOUR_OF_DAY, pickHour);
                         mCalendar.set(Calendar.MINUTE, pickMinute);
                        configTimeView();

@@ -1,10 +1,10 @@
-package com.example.mareu.utils;
+package com.example.mareu.event;
 import com.example.mareu.model.Reunion;
 public class DeleteReunionEvent {
     /**
-     * Neighbour to delete
+     * Reunion to delete
      */
-    public Reunion reunion;
+    private Reunion reunion;
 
     /**
      * Constructor.
@@ -12,6 +12,9 @@ public class DeleteReunionEvent {
      */
     public DeleteReunionEvent(Reunion reunion) {
         this.reunion = reunion;
+    }
+    public Reunion getReunion() {
+        return reunion;
     }
 }
 

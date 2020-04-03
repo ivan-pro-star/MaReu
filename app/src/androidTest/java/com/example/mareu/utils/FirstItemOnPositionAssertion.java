@@ -7,22 +7,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.mareu.R;
-import com.example.mareu.ui.list_reunion.ReunionRecyclerAdapter;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 
-public class RecyclerViewOnItemAssertion implements ViewAssertion {
-       // private final Matcher<Integer> positionMatcher;
+public class FirstItemOnPositionAssertion implements ViewAssertion {
         private final int position ;
         private final String valueItem ;
 
-        public static RecyclerViewOnItemAssertion withItemPosition(int position, String valueItem) {
-            return new RecyclerViewOnItemAssertion(position, valueItem);
+        public static FirstItemOnPositionAssertion withItemPosition(int position, String valueItem) {
+            return new FirstItemOnPositionAssertion(position, valueItem);
         }
-
-        private RecyclerViewOnItemAssertion(int position, String valueItem) {
+        private FirstItemOnPositionAssertion(int position, String valueItem) {
             this.position = position;
             this.valueItem = valueItem;
         }

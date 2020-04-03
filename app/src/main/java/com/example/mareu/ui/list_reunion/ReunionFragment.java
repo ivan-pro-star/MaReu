@@ -14,12 +14,14 @@ import com.example.mareu.R;
 import com.example.mareu.di.DI;
 import com.example.mareu.model.Reunion;
 import com.example.mareu.service.ApiService;
-import com.example.mareu.utils.DeleteReunionEvent;
+import com.example.mareu.event.DeleteReunionEvent;
 
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,17 +34,45 @@ public class ReunionFragment extends Fragment {
     //RECYCLER ---
     RecyclerView mRecyclerReunion;
     // SERVICE FOR GET DATA ---
-    ApiService mService = DI.getApiService();
+    public  ApiService mService = DI.getApiService();
     //BOOLEAN CONFIG FOR SORTER ---
     boolean isSorterByCalendar ;
 
+    //int pour type getter
+
+    //init typeGetter a zero, simple sorter
+    private int typeGetter = 0 ;
+
+    public static  final int SORTER_SIMPLE = 0;
+    public static  final int FILTER_ROOM = 1;
+    public static  final int FILTER_CALENDAR = 2;
+
+    private int mRoom;
+    private Calendar mAfter;
+    private Calendar mBefore;
 
     /**
      * Create an instance of ReunionFragment
     * */
-    public static ReunionFragment newInstance(boolean isSorterByCalendar) {
+    public static ReunionFragment newInstance(boolean isSorterByCalendar, int typeGetter) {
         ReunionFragment fragment = new ReunionFragment();
         fragment.isSorterByCalendar = isSorterByCalendar;
+        fragment.typeGetter = typeGetter;
+        return fragment;
+    }
+    public static ReunionFragment newInstance(boolean isSorterByCalendar, int typeGetter, int room) {
+        ReunionFragment fragment = new ReunionFragment();
+        fragment.isSorterByCalendar = isSorterByCalendar;
+        fragment.typeGetter = typeGetter;
+        fragment.mRoom = room;
+        return fragment;
+    }
+    public static ReunionFragment newInstance(boolean isSorterByCalendar, int typeGetter, Calendar start, Calendar end) {
+        ReunionFragment fragment = new ReunionFragment();
+        fragment.isSorterByCalendar = isSorterByCalendar;
+        fragment.typeGetter = typeGetter;
+        fragment.mBefore = start;
+        fragment.mAfter = end;
         return fragment;
     }
 
@@ -59,7 +89,6 @@ public class ReunionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_reunion, container, false);
         mRecyclerReunion = (RecyclerView) view;
         mRecyclerReunion.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //mRecyclerReunion.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         return  view;
     }
     @Override
@@ -83,12 +112,17 @@ public class ReunionFragment extends Fragment {
     // DATA ---
     private void initList() {
         List<Reunion> reunions;
-        if(isSorterByCalendar){
-            reunions = mService.getReunionsByCalendar();
+        switch(typeGetter){
+            case FILTER_ROOM:
+                reunions = mService.getReunions(mRoom);
+                break;
+            case FILTER_CALENDAR:
+                reunions = mService.getReunions(mBefore, mAfter);
+                break;
+            default:
+                reunions = mService.getReunions(isSorterByCalendar);
         }
-        else{
-            reunions = mService.getReunionsByRoom();
-        }
+
         //SET ADAPTER
         ReunionRecyclerAdapter adapter = new ReunionRecyclerAdapter(reunions, isSorterByCalendar);
         mRecyclerReunion.setAdapter(adapter);
@@ -100,7 +134,7 @@ public class ReunionFragment extends Fragment {
      */
     @Subscribe
     public void onDeleteNeighbour(DeleteReunionEvent event) {
-        mService.deleteReunion(event.reunion);
+        mService.deleteReunion(event.getReunion());
         initList();
     }
 }

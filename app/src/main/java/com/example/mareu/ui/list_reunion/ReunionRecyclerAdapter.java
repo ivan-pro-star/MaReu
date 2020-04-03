@@ -5,20 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mareu.R;
 import com.example.mareu.model.Reunion;
-import com.example.mareu.utils.DeleteReunionEvent;
+import com.example.mareu.event.DeleteReunionEvent;
 import com.example.mareu.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,17 +39,18 @@ public class ReunionRecyclerAdapter extends RecyclerView.Adapter<ReunionRecycler
         mReunions = reunions;
         mIsSortByDate = sortByDate;
     }
+
     // OVERRIDE---
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.item_reunion,viewGroup,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.display(mReunions.get(i));
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        viewHolder.display(mReunions.get(position));
     }
 
     @Override
@@ -82,6 +80,7 @@ public class ReunionRecyclerAdapter extends RecyclerView.Adapter<ReunionRecycler
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
         // DISPLAY ----
         public void display(final Reunion reunion)
         {
@@ -122,8 +121,6 @@ public class ReunionRecyclerAdapter extends RecyclerView.Adapter<ReunionRecycler
                 mImage.setImageResource(R.mipmap.finish);
             }
         }
-
-
     }//end Class ViewHolder
 }
 

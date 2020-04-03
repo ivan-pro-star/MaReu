@@ -12,4 +12,8 @@
         <item>I</item>
         <item>J</item>
     </string-array>
+    <string name="buttonStart">START</string>
+    <string name="buttonEnd">END</string>
+    <string name="error_dialog_calendar_change_start">"Warning, start is updated automatically, start should be lower than end".</string>
+    <string name="error_dialog_calendar_change_end">"Warning, end is updated automatically, end should greater than start".</string>
 </resources>

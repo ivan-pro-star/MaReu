@@ -22,14 +22,13 @@ public class Reunion {
         this.calendar = calendar;
     }
 
+    //GETTER
     public long getId() {
         return id;
     }
-
     public int getRoom() {
         return room;
     }
-
     public String getSubject() {
         return subject;
     }
@@ -39,26 +38,10 @@ public class Reunion {
     public Calendar getCalendar() {
         return calendar;
     }
-
     public String getFormattedDate() {
         return Utils.FORMAT_DATE.format(calendar.getTime());
     }
-     public String getFormattedHour() {
+    public String getFormattedHour() {
         return Utils.FORMAT_TIME.format(calendar.getTime());
-    }
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reunion reunion = (Reunion) o;
-        return Objects.equals(id, reunion.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

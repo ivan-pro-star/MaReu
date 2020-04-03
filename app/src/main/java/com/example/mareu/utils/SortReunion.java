@@ -7,8 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class SortReunion {
-    public static List<Reunion> byRoom(List<Reunion> reunions){
 
+    public static List<Reunion> byRoom(List<Reunion> reunions){
         Collections.sort(reunions, new Comparator<Reunion>() {
             @Override
             public int compare(Reunion reunion1, Reunion reunion2) {
@@ -20,11 +20,10 @@ public class SortReunion {
                 return isLower;
             }
         });
-
         return reunions;
     }
-    public static List<Reunion> byCalendar(List<Reunion> reunions){
 
+    public static List<Reunion> byCalendar(List<Reunion> reunions){
         Collections.sort(reunions, new Comparator<Reunion>() {
             @Override
             public int compare(Reunion reunion1, Reunion reunion2) {

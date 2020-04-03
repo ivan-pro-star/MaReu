@@ -67,13 +67,7 @@ public class CreateReunionActivity extends AppCompatActivity {
 
     public void configSpinnerAdapter(){
         Spinner spinnerRoom = findViewById(R.id.spinnerRoom);
-        //Autre layout spinner fournit par android:
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rooms, android.R.layout.simple_spinner_item);
-        //LABEL
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rooms, R.layout.my_spinner);
-        //autre layout fournit par android
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //DROP ITEMS
         adapter.setDropDownViewResource(R.layout.my_spinner);
         spinnerRoom.setAdapter(adapter);
 

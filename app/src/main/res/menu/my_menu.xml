@@ -3,10 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/itemRoomMenu"
         android:title="Room"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/itemSorterRoom"
+                android:title="Sorter"
+                app:showAsAction="never"
+                />
+             <item
+                android:id="@+id/itemFilterRoom"
+                android:title="Filter"
+                app:showAsAction="never"
+                />
+        </menu>
+    </item>
     <item android:id="@+id/itemDateMenu"
         android:title="Date"
-        app:showAsAction="never"
-       />
+        app:showAsAction="never">
+            <menu>
+                <item
+                    android:id="@+id/itemSorterDate"
+                    android:title="Sorter"
+                    app:showAsAction="never"
+                    />
+                <item
+                    android:id="@+id/itemFilterDate"
+                    android:title="Filter"
+                    app:showAsAction="never"
+                    />
+            </menu>
+    </item>
 </menu>

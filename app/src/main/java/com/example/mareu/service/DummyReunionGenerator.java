@@ -16,8 +16,8 @@ public abstract class DummyReunionGenerator {
          dummy_reunions.add(new Reunion(4, 1, subject, "leoMessi@gmail.com, cristianoRonaldo@gamil.com, griezmann@gmail.com, mbappe@gmail.com, paulPogba@gmail.com", new GregorianCalendar( 2020,  2, 27,  18, 10) {}));
         dummy_reunions.add(new Reunion(3, 3, "Peach", "anthony@gmail.com, leo@gmail.com", new GregorianCalendar( 2020,  8, 28,  18, 5) {}));
         dummy_reunions.add(new Reunion(2, 4, "Luigi", "paul-pogba@gmail.com, hugo-llori@gmail.com, gian-luigi-buffon@gmail.com", new GregorianCalendar( 2020,  8, 29,  18, 10) {}));
-        dummy_reunions.add(new Reunion(1, 2, "Daisy", "milanAc@gmail.com, liverpool@gmail.com, arsenal@gmail.com, barcelone@gmail.com, manchester@gmail.com", new GregorianCalendar( 2020,  0, 25,  18, 10) {}));
-        dummy_reunions.add(new Reunion(5, 2, "Mario", "Jean-claude-vanDamme@gmail.com, lucas-hernandez@gmail.com", new GregorianCalendar( 2020,  0, 25,  18, 25) {}));
+        dummy_reunions.add(new Reunion(1, 2, "Daisy", "milanAc@gmail.com, liverpool@gmail.com, arsenal@gmail.com, barcelone@gmail.com, manchester@gmail.com", new GregorianCalendar( 2020,  3, 25,  18, 10) {}));
+        dummy_reunions.add(new Reunion(5, 2, "Mario", "Jean-claude-vanDamme@gmail.com, lucas-hernandez@gmail.com", new GregorianCalendar( 2020,  3, 25,  18, 25) {}));
         return dummy_reunions;
     }
 }

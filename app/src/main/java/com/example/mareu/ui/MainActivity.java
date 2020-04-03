@@ -12,24 +12,28 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.mareu.R;
+import com.example.mareu.event.FilterCalendarEvent;
+import com.example.mareu.event.FilterRoom;
 import com.example.mareu.ui.create_reunion.CreateReunionActivity;
 import com.example.mareu.ui.list_reunion.ReunionFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/***
- * LANCER SUR EMULATOR X-HDPI (type Nexus 6) ou plus.
- * */
 public class MainActivity extends AppCompatActivity {
 
     // DESIGN ---
     @BindView(R.id.add_reunion)
     FloatingActionButton add_reunion;
 
+    boolean ROOM = false;
+    boolean CALENDAR = true;
+
     // FRAGMENT RECYCLERVIEW ---
-    ReunionFragment mFragmentRoom = ReunionFragment.newInstance(false);
-    ReunionFragment mFragmentCalendar = ReunionFragment.newInstance(true);
+    public ReunionFragment mFragment = ReunionFragment.newInstance(ROOM, ReunionFragment.SORTER_SIMPLE);
 
 
     // OVERRIDE ---
@@ -42,13 +46,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //AU lancement, on fait un trie par Room
-        replaceFragment(mFragmentRoom);
-        add_reunion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CreateReunionActivity.navigate(MainActivity.this);
-            }
-        });
+        replaceFragment(mFragment);
+
+        configAddButton();
     }
 
     @Override
@@ -61,21 +61,75 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
        switch (item.getItemId()){
-           case R.id.itemDateMenu:
-               replaceFragment(mFragmentCalendar);
+           case R.id.itemSorterDate:
+                mFragment = ReunionFragment.newInstance(CALENDAR, ReunionFragment.SORTER_SIMPLE);
+               replaceFragment(mFragment);
+
                break;
-           case R.id.itemRoomMenu:
-               replaceFragment(mFragmentRoom);
+           case R.id.itemSorterRoom:
+               mFragment = ReunionFragment.newInstance(ROOM, ReunionFragment.SORTER_SIMPLE);
+               replaceFragment(mFragment);
+
                break;
+                case R.id.itemFilterDate:
+                    MyDialog.setBUILDER(MyDialog.BUILDER_START_AND_END);
+                    MyDialog.showAddTaskDialog(this);
+               break;
+            case R.id.itemFilterRoom:
+                MyDialog.setBUILDER(MyDialog.BUILDER_ROOM);
+                MyDialog.showAddTaskDialog(this);
+               break;
+
        }
         return super.onOptionsItemSelected(item);
     }
 
-    // CONFIG ---
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    // CONFIG ---
+    public void configAddButton(){
+        add_reunion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateReunionActivity.navigate(MainActivity.this);
+            }
+        });
+    }
     public void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.id_frame_fragment_reunion, fragment, fragment.getTag()).commit();
     }
+
+
+    /**
+     * Fired if the user clicks on a delete button
+     * @param event
+     */
+    @Subscribe
+    public void onGetFilterRoomEvent(FilterRoom event){
+         mFragment = ReunionFragment.newInstance(ROOM, ReunionFragment.FILTER_ROOM, event.getSearchRoom());
+        replaceFragment(mFragment);
+    }
+     /**
+     * Fired if the user clicks on a delete button
+     * @param event
+     */
+    @Subscribe
+    public void onGetFilterCalendarEvent(FilterCalendarEvent event){
+         mFragment = ReunionFragment.newInstance(CALENDAR, ReunionFragment.FILTER_CALENDAR, event.getStart(), event.getEnd());
+        replaceFragment(mFragment);
+    }
+
+
 
 }

@@ -1,43 +1,60 @@
 package com.example.mareu.service;
 
 import com.example.mareu.model.Reunion;
+import com.example.mareu.utils.FilterReunion;
 import com.example.mareu.utils.SortReunion;
 
-
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.mareu.service.DummyReunionGenerator.generateReunionsForDemo;
 
 public class DummyReunionApiService implements ApiService {
-    private List<Reunion> byRoom = new ArrayList<>();
-   // private List<Reunion> byRoom = generateReunionsForDemo();
-    private List<Reunion> byCalendar = new ArrayList<>();
-    //private List<Reunion> byCalendar = generateReunionsForDemo();
+
+    //private List<Reunion> mReunions = generateReunionsForDemo();
+    private List<Reunion> mReunions = new ArrayList<>(); // for test
+
+    public List<Reunion> getReunionsSorterByRoom() {
+        return SortReunion.byRoom(mReunions);
+    }
+    public List<Reunion> getReunionsSorterByCalendar() {
+        return SortReunion.byCalendar(mReunions);
+    }
+    public List<Reunion> getFilterReunionsByRoom(int room) {
+        return FilterReunion.byRoom(getReunionsSorterByRoom(), room);
+    }
+    public List<Reunion> getFilterReunionsByCalendar(Calendar Start, Calendar end) {
+        return FilterReunion.byCalendar(getReunionsSorterByCalendar(), Start, end);
+    }
+
+    //OVERRIDE --
+    @Override
+    public List<Reunion> getReunions(int room) {
+        return getFilterReunionsByRoom(room);
+    }
 
     @Override
-    public List<Reunion> getReunionsByRoom() {
-        return SortReunion.byRoom(byRoom);
+    public List<Reunion> getReunions(boolean sorterByCalendar) {
+        if(sorterByCalendar){
+            return getReunionsSorterByCalendar();
+        }
+        else{
+            return getReunionsSorterByRoom();
+        }
     }
-     @Override
-    public List<Reunion> getReunionsByCalendar() {
-        return SortReunion.byCalendar(byCalendar);
+    @Override
+    public List<Reunion> getReunions(Calendar start, Calendar end) {
+        return getFilterReunionsByCalendar(start, end);
     }
 
     @Override
     public void createReunion(Reunion reunion) {
-        byRoom.add(reunion);
-        byCalendar.add(reunion);
+        mReunions.add(reunion);
     }
-
     @Override
     public void deleteReunion(Reunion reunion) {
-        byRoom.remove(reunion);
-        byCalendar.remove(reunion);
-    }
-    @Override
-    public void setReunion(List<Reunion> reunions) {
-        byRoom = reunions;
-        byCalendar = reunions;
+        mReunions.remove(reunion);
     }
 }
